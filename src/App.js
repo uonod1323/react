@@ -7,6 +7,9 @@ function App() {
   let [글제목, 제목변경] = useState(['남자 코트 추천', '디자이어 그랑프리 랭킹', '까짓거 함 해보죠']);
   let [따봉, 따봉변경] = useState([0,0,0]);
   let [modal, setModal] = useState(false);
+  let [title, 모달제목변경] = useState(0);
+  let [입력값, 입력값변경] = useState('');
+  
 
   return (
     <div className="App">
@@ -17,7 +20,11 @@ function App() {
           글제목.map(function(a,i){
             return (
               <div className='list'>
-                <h4 onClick={function(){setModal(true)}}>{글제목[i]} <span onClick={function(){
+                <h4 onClick={function(){    
+                    setModal(!modal);
+                    모달제목변경(i);
+                  }}>{글제목[i]} <span onClick={function(e){
+                    e.stopPropagation();
                   let 따봉복사 = [...따봉];
                   따봉복사[i] = 따봉복사[i] + 1;
                   따봉변경(따봉복사);
@@ -28,8 +35,10 @@ function App() {
           })
         }
 
+        <input onChange={(e)=>{입력값변경(e.target.value); console.log(입력값);}}/>
+
         {
-          modal == true ? <Modal 추천={'여자 코트 추천'} 글제목={글제목} 제목변경={제목변경}/> : null
+          modal == true ? <Modal 글제목={글제목} title={title}/> : null
         }
       </div>
   );
@@ -38,14 +47,9 @@ function App() {
 function Modal(props){
   return(
       <div className="modal">
-        <h4>{props.글제목[0]}</h4>
+        <h4>{props.글제목[props.title]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
-        <button onClick={function(){
-          let 제목복사 = [...props.글제목];
-          제목복사[0] = props.추천;
-          props.제목변경(제목복사);
-        }}>글수정</button>
       </div>
   )
 }
