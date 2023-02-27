@@ -14,30 +14,38 @@ function App() {
         <h4>ReactBlog</h4>
       </div>
         {
-          글제목.map(function(a, i){
+          글제목.map(function(a,i){
             return (
-              <div className="list" key={i}>
-                <h4>{글제목[i]} <span onClick={()=>{
-                  따봉.map(function(b,j){
-                    따봉[j] = b + 1;
-                  })
-                }}
-                >👍</span> {따봉}</h4>
+              <div className='list'>
+                <h4 onClick={function(){setModal(true)}}>{글제목[i]} <span onClick={function(){
+                  let 따봉복사 = [...따봉];
+                  따봉복사[i] = 따봉복사[i] + 1;
+                  따봉변경(따봉복사);
+                }}>👍</span> {따봉[i]}</h4>          
                 <p>2월 17일 발행</p>
               </div>
             )
           })
         }
-    </div>
+
+        {
+          modal == true ? <Modal 추천={'여자 코트 추천'} 글제목={글제목} 제목변경={제목변경}/> : null
+        }
+      </div>
   );
 }
 
-function Modal(){
+function Modal(props){
   return(
       <div className="modal">
-        <h4>제목</h4>
+        <h4>{props.글제목[0]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
+        <button onClick={function(){
+          let 제목복사 = [...props.글제목];
+          제목복사[0] = props.추천;
+          props.제목변경(제목복사);
+        }}>글수정</button>
       </div>
   )
 }
