@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from 'react'
+import React, {useState} from 'react'
 
 function App() {
 
@@ -29,7 +29,7 @@ function App() {
                   따봉복사[i] = 따봉복사[i] + 1;
                   따봉변경(따봉복사);
                 }}>👍</span> {따봉[i]}</h4>          
-                <p>2월 17일 발행  <button onClick={function(){
+                <p>{todayCalculate()}  <button onClick={function(){
                   let 제목복사 = [...글제목];
                   제목복사.splice(i,1)
                   제목변경(제목복사);
@@ -45,17 +45,22 @@ function App() {
 
         <input onChange={(e)=>{입력값변경(e.target.value); console.log(입력값);}}/>
         <button onClick={()=>{
+          if(입력값 !== ''){
           let 제목복사 = [...글제목];
           제목복사.unshift(입력값);
           제목변경(제목복사);
           let 따봉복사 = [...따봉];
           따봉복사.unshift(0);
           따봉변경(따봉복사);
+          }else{
+            alert('새끼..기열!');
+          }
         }}>글추가</button>
 
         {
           modal == true ? <Modal 글제목={글제목} title={title}/> : null
         }
+        <Modal2></Modal2>
       </div>
   );
 }
@@ -68,6 +73,34 @@ function Modal(props){
         <p>상세내용</p>
       </div>
   )
+}
+
+class Modal2 extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      name : 'kim',
+      age  : 20
+    }
+  }
+  render(){
+    return(
+      <div>안녕 {this.state.age}
+        <button onClick={()=>{
+          this.setState({age : 21})
+        }}>버튼</button>
+      </div>
+    )
+  }
+}
+
+function todayCalculate(){
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  const dateString = `${year}년 ${month}월 ${day}일`;
+  return dateString;
 }
 
 export default App;
