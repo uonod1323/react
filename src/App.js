@@ -36,6 +36,14 @@ function App() {
         }
 
         <input onChange={(e)=>{입력값변경(e.target.value); console.log(입력값);}}/>
+        <button onClick={()=>{
+          let 제목복사 = [...글제목];
+          제목복사.unshift(입력값);
+          제목변경(제목복사);
+          let 따봉복사 = [...따봉];
+          따봉복사.unshift(0);
+          따봉변경(따봉복사);
+        }}>글추가</button>
 
         {
           modal == true ? <Modal 글제목={글제목} title={title}/> : null
